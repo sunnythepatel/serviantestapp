@@ -34,7 +34,7 @@ jobs:
       run: brew install virtualbox --cask
  
     - name:  Install Vagrant Cask
-      run: brew cask install vagrant --cask
+      run: brew install vagrant --cask
 
     - name: Run vagrant validate
       run: vagrant validate
