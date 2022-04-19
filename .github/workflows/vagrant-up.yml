@@ -6,6 +6,8 @@ on:
     - master
     - localdev
   pull_request:
+    branches:
+    - master
 
 jobs:
   vagrant-up:
