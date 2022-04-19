@@ -1,0 +1,87 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+
+############### INLINE SCRIPTS
+@docker_install = <<SCRIPT
+  ##### Add Docker Repo
+  apt install apt-transport-https ca-certificates curl software-properties-common -y
+  DOCKER_REPO="https://download.docker.com/linux/ubuntu"
+  curl -fsSL ${DOCKER_REPO}/gpg | apt-key add -
+  add-apt-repository \
+    "deb [arch=amd64] ${DOCKER_REPO} \
+    $(lsb_release -cs) \
+    stable"
+  apt-cache policy docker-ce -y
+  apt-get update -qq
+  ##### Prerequisites (just in case)
+  apt-get install -y --no-install-recommends \
+      apt-transport-https \
+      ca-certificates \
+      software-properties-common
+  
+  ##### Install Docker
+  apt-get install -y docker-ce
+  systemctl status docker
+  usermod -aG docker 'vagrant'
+  docker --version
+SCRIPT
+
+@docker_compose_install = <<SCRIPT
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+mkdir -p $DOCKER_CONFIG/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+docker compose version
+SCRIPT
+
+@docker_compose_up = <<SCRIPT
+  cd /vagrant/
+  docker compose --env-file .env config
+  docker compose --env-file .env up -d 
+SCRIPT
+
+
+############### VAGRANT CONFIG
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "ubuntu/focal64"
+ 
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = 'servian-aws-dev'
+    vb.memory = 2048
+    vb.cpus = 1
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  end
+  config.vm.network(:forwarded_port, guest: 8080, host: 8080)
+  config.vm.network(:forwarded_port, guest: 8081, host: 8081)
+
+  # Mount this folder as RO in the guest, since it contains secure stuff
+  config.vm.synced_folder ".", "/vagrant", :mount_options => ["ro"]
+
+  config.vm.provision :shell, inline: "apt-get update -y && apt-get upgrade -y"
+  config.vm.provision :shell, name: "docker_install.sh", inline: @docker_install
+  config.vm.provision :shell, name: "docker_compose_install.sh", inline: @docker_compose_install
+  config.vm.provision :shell, name: "docker_compose_up.sh", inline: @docker_compose_up
+  # config.vm.provision :docker
+  # config.vm.provision :docker_compose, yml: "/Vagrant/docker-compose.yml", rebuild: true, command_options: { rm: "", up: "-d --timeout 20"},options: "--env-file .env",project_name: "myproject", compose_version: "2.2.3" ,run: "always"
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+end
