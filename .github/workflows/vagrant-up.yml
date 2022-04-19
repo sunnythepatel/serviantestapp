@@ -15,7 +15,7 @@ on:
 
 jobs:
   vagrant-up:
-    runs-on: macos-latest
+    runs-on: macos-10.15
 
     steps:
     - uses: actions/checkout@v2
@@ -28,24 +28,24 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-vagrant-
     
-    - name: Install homebrew
-      run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    # - name: Install homebrew
+    #   run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-    - name: Update Brew
-      run: brew doctor && brew update
+    # - name: Update Brew
+    #   run: brew doctor && brew update
     
-    - name: master disable command 
-      run: sudo spctl --master-disable
+    # - name: master disable command 
+    #   run: sudo spctl --master-disable
 
-    - name:  Install Virtual Box Cask
-      run: brew install virtualbox --cask
+    # - name:  Install Virtual Box Cask
+    #   run: brew install virtualbox --cask
  
-    - name:  Install Vagrant Cask
-      run: brew install vagrant --cask
+    # - name:  Install Vagrant Cask
+    #   run: brew install vagrant --cask
 
-    - name: vagrant autocomplete
-      run: vagrant autocomplete install
-      
+    # - name: vagrant autocomplete
+    #   run: vagrant autocomplete install
+
     - name: Run vagrant validate
       run: cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant validate
 
