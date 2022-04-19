@@ -5,9 +5,13 @@ on:
     branches:
     - master
     - localdev
+    paths:
+      - "Vagrant/**"
   pull_request:
     branches:
     - master
+    paths:
+      - "Vagrant/**"
 
 jobs:
   vagrant-up:
@@ -39,23 +43,23 @@ jobs:
     - name: show files
       run: ls && pwd
 
-    # - name: Run vagrant validate
-    #   run: vagrant validate
+    - name: Run vagrant validate
+      run: cd /Users/runner/work/serviantestapp/serviantestapp && vagrant validate
 
-    # - name: Run vagrant up
-    #   run: vagrant up
+    - name: Run vagrant up
+      run:  cd /Users/runner/work/serviantestapp/serviantestapp && vagrant up
 
-    # - name: curl healthcheck command
-    #   run: curl http://localhost:8080/healthcheck/      
+    - name: curl healthcheck command
+      run: curl http://localhost:8080/healthcheck/      
     
-    # - name: curl task command
-    #   run: curl http://localhost:8080/api/task/      
+    - name: curl task command
+      run: curl http://localhost:8080/api/task/      
     
-    # - name: ssh into box after boot
-    #   run: vagrant ssh -c "echo 'hello world!'"
+    - name: ssh into box after boot
+      run: vagrant ssh -c "echo 'hello world!'"
     
-    # - name: ssh into box after boot
-    #   run: vagrant ssh -c "docker ps -a"
+    - name: ssh into box after boot
+      run: vagrant ssh -c "docker ps -a"
 
     # - name: vagrant destroy
     #   run: vagrant destroy
