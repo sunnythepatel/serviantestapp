@@ -31,10 +31,10 @@ jobs:
       run: brew doctor && brew update
     
     - name:  Install Virtual Box Cask
-      run: brew cask install virtualbox
-    
+      run: brew install virtualbox --cask
+ 
     - name:  Install Vagrant Cask
-      run: brew cask install vagrant
+      run: brew cask install vagrant --cask
 
     - name: Run vagrant validate
       run: vagrant validate
