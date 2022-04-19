@@ -36,7 +36,7 @@ services:
     depends_on:
       - postgresql
     ports:
-      - 8080:3000
+      - 8080:${VTT_LISTENPORT}
     environment:
       VTT_DBUSER: ${VTT_DBUSER}
       VTT_DBPASSWORD: ${VTT_DBPASSWORD}
