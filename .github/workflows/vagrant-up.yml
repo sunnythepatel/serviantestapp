@@ -3,13 +3,13 @@ name: vagrant-up
 on:
   push:
     branches:
-    - master
+    - main
     - localdev
     paths:
       - "Vagrant/**"
   pull_request:
     branches:
-    - master
+    - main
     paths:
       - "Vagrant/**"
 
