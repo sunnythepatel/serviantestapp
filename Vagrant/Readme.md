@@ -23,7 +23,11 @@ $> brew doctor && brew update
 $> brew install virtualbox --cask
 $> brew install vagrant --cask
 $> vagrant autocomplete install
+$> brew install --cask virtualbox-extension-pack
 ```
+
+https://formulae.brew.sh/cask/virtualbox 
+
 https://medium.com/@Aenon/mac-virtualbox-kernel-driver-error-df39e7e10cd8
 
 If you are using windows:
