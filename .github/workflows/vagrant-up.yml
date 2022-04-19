@@ -43,6 +43,9 @@ jobs:
     - name:  Install Vagrant Cask
       run: brew install vagrant --cask
 
+    - name: vagrant autocomplete
+      run: vagrant autocomplete install
+      
     - name: Run vagrant validate
       run: cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant validate
 
