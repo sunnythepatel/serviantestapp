@@ -40,14 +40,16 @@ jobs:
     - name:  Install Vagrant Cask
       run: brew install vagrant --cask
 
+    - name: Chage Directory
+      run:  cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant
     - name: show files
       run: ls && pwd
 
     - name: Run vagrant validate
-      run: cd /Users/runner/work/serviantestapp/serviantestapp && vagrant validate
+      run: cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant validate
 
     - name: Run vagrant up
-      run:  cd /Users/runner/work/serviantestapp/serviantestapp && vagrant up
+      run:  cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant up
 
     - name: curl healthcheck command
       run: curl http://localhost:8080/healthcheck/      
