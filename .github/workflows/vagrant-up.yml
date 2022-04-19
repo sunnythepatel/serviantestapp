@@ -28,41 +28,23 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-vagrant-
     
-    # - name: Install homebrew
-    #   run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-    # - name: Update Brew
-    #   run: brew doctor && brew update
-    
-    # - name: master disable command 
-    #   run: sudo spctl --master-disable
-
-    # - name:  Install Virtual Box Cask
-    #   run: brew install virtualbox --cask
- 
-    # - name:  Install Vagrant Cask
-    #   run: brew install vagrant --cask
-
-    # - name: vagrant autocomplete
-    #   run: vagrant autocomplete install
-
     - name: Run vagrant validate
-      run: cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant validate
+      run: cd Vagrant && vagrant validate
 
     - name: Run vagrant up
-      run:  cd /Users/runner/work/serviantestapp/serviantestapp/Vagrant && vagrant up
-
-    - name: curl healthcheck command
-      run: curl http://localhost:8080/healthcheck/      
-    
-    - name: curl task command
-      run: curl http://localhost:8080/api/task/      
-    
+      run:  cd Vagrant && vagrant up
+         
     - name: ssh into box after boot
       run: cd Vagrant && vagrant ssh -c "echo 'hello world!'"
     
     - name: ssh into box after boot
       run: cd Vagrant && vagrant ssh -c "docker ps -a"
+
+    - name: curl healthcheck command
+      run: curl http://localhost:8080/healthcheck/      
+    
+    - name: curl task command
+      run: curl http://localhost:8080/api/task/ 
 
     # - name: vagrant destroy
     #   run: vagrant destroy
