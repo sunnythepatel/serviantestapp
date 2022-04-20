@@ -15,7 +15,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "servianbucket"
+    bucket = "serviantestbucket"
     key    = "dbstate/terraform.tfstate"
     region = "ap-southeast-2"
   }
