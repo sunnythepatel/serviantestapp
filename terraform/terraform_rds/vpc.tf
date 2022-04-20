@@ -18,39 +18,39 @@ resource "aws_internet_gateway" "default" {
 }
 
 resource "aws_subnet" "public__a" {
-  availability_zone       = "us-east-1a"
+  availability_zone       = "ap-southeast-2a"
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
 
   tags = {
     Env  = "production"
-    Name = "public-us-east-1a"
+    Name = "public-ap-southeast-2a"
   }
 
   vpc_id = aws_vpc.default.id
 }
 
 resource "aws_subnet" "public__b" {
-  availability_zone       = "us-east-1b"
+  availability_zone       = "ap-southeast-2b"
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 
   tags = {
     Env  = "production"
-    Name = "public-us-east-1b"
+    Name = "public-ap-southeast-2b"
   }
 
   vpc_id = aws_vpc.default.id
 }
 
 resource "aws_subnet" "public__c" {
-  availability_zone       = "us-east-1c"
+  availability_zone       = "ap-southeast-2c"
   cidr_block              = "10.0.2.0/24"
   map_public_ip_on_launch = true
 
   tags = {
     Env  = "production"
-    Name = "public-us-east-1c"
+    Name = "public-ap-southeast-2c"
   }
 
   vpc_id = aws_vpc.default.id
