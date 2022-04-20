@@ -43,7 +43,7 @@ resource "aws_security_group" "ec2-sg" {
 resource "aws_launch_configuration" "lc" {
   name          = "test_ecs"
   image_id      = data.aws_ami.amazon_linux.id
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"
   lifecycle {
     create_before_destroy = true
   }
@@ -55,6 +55,11 @@ resource "aws_launch_configuration" "lc" {
     #! /bin/bash
     sudo apt-get update
     sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
+    sudo apt install postgresql postgresql-contrib
+    sudo systemctl start postgresql.service
+    export PGPASSWORD="password123"
+    psql --host=production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com --port=5432 --username=postgres --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO postgres;'
+    sudo apt-get --purge remove postgresql postgresql-*
     EOF
 }
 

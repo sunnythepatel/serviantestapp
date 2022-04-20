@@ -1,0 +1,46 @@
+[{
+    "name": "webdb",
+    "image": "servian/techchallengeapp:latest",
+    "cpu": 5,
+    "memory": 100,
+    "essential": true,
+    "command": [
+        "updatedb"
+    ],
+    "environment": [{
+            "name": "VTT_DBUSER",
+            "value": "postgres"
+        },
+        {
+            "name": "VTT_DBPASSWORD",
+            "value": "password123"
+        },
+        {
+            "name": "VTT_DBNAME",
+            "value": "app"
+        },
+        {
+            "name": "VTT_DBPORT",
+            "value": "5432"
+        },
+        {
+            "name": "VTT_DBHOST",
+            "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
+        },
+        {
+            "name": "VTT_LISTENHOST",
+            "value": "0.0.0.0"
+        },
+        {
+            "name": "VTT_LISTENPORT",
+            "value": "80"
+        }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "/ecs/webdb-container",
+            "awslogs-region": "ap-southeast-2"
+        }
+    }
+}]

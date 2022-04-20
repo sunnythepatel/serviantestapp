@@ -31,11 +31,34 @@ resource "aws_ecs_task_definition" "task-definition-test" {
   }
 }
 
+
+resource "aws_ecs_task_definition" "task-definition-webdb" {
+  family                = "webdb-family"
+  container_definitions = file("container-definitions/webdb-container-def.json")
+  network_mode             = "bridge"
+  requires_compatibilities = ["EC2"]
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "servian"
+  }
+}
+
+resource "aws_ecs_service" "webdb_service" {
+  name            = "webdb-service"
+  cluster         = aws_ecs_cluster.web-cluster.id
+  task_definition = aws_ecs_task_definition.task-definition-webdb.arn
+  desired_count   = 1
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+  launch_type = "EC2"
+}
+
 resource "aws_ecs_service" "service" {
   name            = "web-service"
   cluster         = aws_ecs_cluster.web-cluster.id
   task_definition = aws_ecs_task_definition.task-definition-test.arn
-  desired_count   = 10
+  desired_count   = 5
   ordered_placement_strategy {
     type  = "binpack"
     field = "cpu"
@@ -53,6 +76,7 @@ resource "aws_ecs_service" "service" {
   depends_on  = [aws_lb_listener.web-listener]
 }
 
+
 resource "aws_cloudwatch_log_group" "log_group" {
   name = "/ecs/frontend-container"
   tags = {
@@ -60,3 +84,12 @@ resource "aws_cloudwatch_log_group" "log_group" {
     "createdBy" = "servian"
   }
 }
+
+resource "aws_cloudwatch_log_group" "webdb_log_group" {
+  name = "/ecs/webdb-container"
+  tags = {
+    "env"       = "dev"
+    "createdBy" = "servian"
+  }
+}
+
