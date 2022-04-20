@@ -31,3 +31,4 @@ override.tf.json
 Vagrant/.vagrant/*
 Vagrant/ubuntu-bionic-18.04-cloudimg-console.log
 Vagrant/ubuntu-focal-20.04-cloudimg-console.log
+.DS_Store
