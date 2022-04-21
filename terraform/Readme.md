@@ -74,9 +74,10 @@ Note: Assuming you already have a ssh public key on ec2 key pairs in ap-southeas
 It will take about 5 minutes to provision all resources.
 ## Step 6. How to delete the infrastructure?
 1. Terminate ec2 instances
-2. `cd terraform/terraform_webapp` and Run `terraform destroy -var-file="web.tfvars" -auto-approve`
-3. `cd terraform/terraform_rds` and Run `terraform destroy -var-file="rds.tfvars" -auto-approve`
-4. Delete s3 bucket `aws s3 rb s3://serviantestbucket --force --profile default` 
+2. Delete ASG manually only if the terraform_webapp destroy fails.
+3. `cd terraform/terraform_webapp` and Run `terraform destroy -var-file="web.tfvars" -auto-approve`
+4. `cd terraform/terraform_rds` and Run `terraform destroy -var-file="rds.tfvars" -auto-approve`
+5. Delete s3 bucket `aws s3 rb s3://serviantestbucket --force --profile default` 
 #### 2. GitHub Actions Deployment
 
 2a. Using Github Actions Ubuntu Runner
@@ -99,11 +100,7 @@ vagrant-up:
 
 
 
-aws s3api create-bucket --bucket serviantestbucket --region ap-southeast-2 --create-bucket-configuration LocationConstraint=ap-southeast-2
 
-terraform plan -var="username=postgres" -var="password=password123"  -auto-approve
-
-terraform apply -var="username=postgres" -var="password=password123"  -auto-approve
 
 aws s3 rb s3://bucket-name --force  
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name my-asg --force-delete
