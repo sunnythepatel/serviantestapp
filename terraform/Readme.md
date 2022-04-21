@@ -40,7 +40,7 @@ $ export AWS_DEFAULT_REGION=ap-southeast-2
 ```
 
 b. Using AWS CLI
-Provide your AWS Access Key ID, AWS Secret Access Key and Default region name as ap-southeast-2
+Provide your AWS Access Key ID, AWS Secret Access Key and Default region name as `ap-southeast-2`
 ```
 $> aws configure
 ```
@@ -52,11 +52,12 @@ aws s3api create-bucket --bucket serviantestbucket --region ap-southeast-2 --cre
 We need to create a S3 bucket to store ```terraform.tfstate``` in S3 bucket. I am not sure but using terraform I wasn't able to create it automatically somehow so went with aws api.
 ##### How to create the RDS infrastructure?
 This example implies that you have already AWS account and Terraform CLI installed.
-1. cd terraform
-2. terraform init
-3. terraform plan
-4. terraform apply
-   Approximate 12 mins to create all resources
+1. cd terraform/terraform_rds
+2. Edit the rds.tfvars file
+3. terraform init
+4. terraform plan -var-file="rds.tfvars"
+5. terraform apply -var-file="rds.tfvars" -auto-approve
+   Approximate 12 mins to create all rds resources
 
 Note: it can take about 5 minutes to provision all resources
 ##### How to create the ECS-EC2 infrastructure?
@@ -68,12 +69,12 @@ This example implies that you have already AWS account and Terraform CLI install
 
 Note: it can take about 5 minutes to provision all resources.
 ## How to delete the infrastructure?
-1. Terminate instances
-2. `cd terraform/terraform_webapp` and Run `terraform destroy`
-2. `cd terraform/terraform_rds` and Run `terraform destroy`
+1. Terminate ec2 instances
+2. `cd terraform/terraform_webapp` and Run `terraform destroy -var-file="web.tfvars" -auto-approve`
+2. `cd terraform/terraform_rds` and Run `terraform destroy -var-file="rds.tfvars" -auto-approve`
 #### 2. GitHub Actions Deployment
  
-2a. Using GihubActions Ubuntu Runner
+2a. Using Github Actions Ubuntu Runner
     It's basically running on Ubuntu and it's run only if there is a change in the code in terraform folder in either branch terraformdev or main.
 
 2b. Using Self-hosted Runner

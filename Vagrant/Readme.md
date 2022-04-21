@@ -114,7 +114,7 @@ If you want to pause the vm:
 
 #### 2. GitHub Actions Deployment
  
-2a. Using GihubActions Mac Runner
+2a. Using GitHub Actions Mac Runner
     It's basically running on macos-10.15 and it's run only if there is a change in the code in Vagrant folder in either branch localdev or main.
 
 2b. Using Self-hosted Runner

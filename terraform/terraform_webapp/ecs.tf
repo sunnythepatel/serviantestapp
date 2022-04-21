@@ -190,6 +190,10 @@ DEFINITION
   }
 }
 
+data "aws_ecs_task_definition" "task-definition-test"  {
+  task_definition = aws_ecs_task_definition.task-definition-test.family
+}
+
 ##############################################################
 # AWS ECS-SERVICE
 # Description: service web-service, desired count is set to 5,
