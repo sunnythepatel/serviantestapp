@@ -1,5 +1,12 @@
-# serviantestapp
-Servian Take Home Project
+# ServianApp
+My take on Servian Take Home Project
+
+I have done using two deployment firstly with creating a dev environment locally using Vagrant as a devops you tend to provide developer the same environement you will be deploying. Secondly with using ecs-ec2 cluster and rds postgre database deployment.
+
+#### 1. Vagrant Deployment
+   To deploy locally using vagrant go [here](Vagrant/Readme.md)
+
+#### 2. ECS-EC2 Cluster with RDS Postgres DB Deployment
 
 aws s3api create-bucket --bucket serviantestbucket --region ap-southeast-2 --create-bucket-configuration LocationConstraint=ap-southeast-2
 
