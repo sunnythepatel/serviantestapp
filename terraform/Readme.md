@@ -16,7 +16,7 @@ Creating a simple infrastructure using Terraform and AWS cloud provider. It cons
 
 #### 1. Manual Deployment
 
-##### Pre-requisite
+##### Step 1. Pre-requisite
 1. Download Terraform
    https://www.terraform.io/downloads 
 
@@ -30,7 +30,7 @@ Creating a simple infrastructure using Terraform and AWS cloud provider. It cons
 2. Download aws cli
    https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html 
 
-##### Configure AWS using AWS CLI or Environment Variable
+##### Step 2. Configure AWS using AWS CLI or Environment Variable
 
 a. Using Environment Variable
 ```
@@ -45,37 +45,43 @@ Provide your AWS Access Key ID, AWS Secret Access Key and Default region name as
 $> aws configure
 ```
 I have kept the region as Sydney (ap-southeast-2) because I think the app should be as closer to the customer/user. We can further make our code dynamic by adding variable.
-##### Create a S3 bucket
+##### Step 3. Create a S3 bucket
 ```
 aws s3api create-bucket --bucket serviantestbucket --region ap-southeast-2 --create-bucket-configuration LocationConstraint=ap-southeast-2
 ```
 We need to create a S3 bucket to store ```terraform.tfstate``` in S3 bucket. I am not sure but using terraform I wasn't able to create it automatically somehow so went with aws api.
-##### How to create the RDS infrastructure?
-This example implies that you have already AWS account and Terraform CLI installed.
-1. cd terraform/terraform_rds
-2. Edit the rds.tfvars file
-3. terraform init
-4. terraform plan -var-file="rds.tfvars"
-5. terraform apply -var-file="rds.tfvars" -auto-approve
-   Approximate 12 mins to create all rds resources
+##### Step 4. How to create the RDS infrastructure?
+This implies that you have already AWS account and Terraform CLI installed. We will first deploy a RDS Postgre DB as we need to create a db for the app so the thought process is to use a seperate production db where we can store all the resources. Once the RDS Postgres DB instance is launched we will get an endpoint at the output section. The endpoint should look like `**.**.ap-southeast-2.rds.amazonaws.com:5432` we will copy the endpoint without the port and semicolon as the input variable for the ECS-EC2 instance. It should look like this `**.**.ap-southeast-2.rds.amazonaws.com`.
+1.  Go to `cd terraform/terraform_rds`
+2. Edit the `rds.tfvars` file and provide the username and password for the postgres. The file can be found in `terraform/terraform_rds/rds.tfvars`.
+3. Run `terraform init`
+4. Run `terraform plan -var-file="rds.tfvars" -auto-approve`
+5. Run `terraform apply -var-file="rds.tfvars" -auto-approve`
+It will take approximate 12 mins to create all rds resources.
 
-Note: it can take about 5 minutes to provision all resources
-##### How to create the ECS-EC2 infrastructure?
-This example implies that you have already AWS account and Terraform CLI installed.
-1. cd terraform
-2. terraform init
-3. terraform plan
-4. terraform apply
-
-Note: it can take about 5 minutes to provision all resources.
-## How to delete the infrastructure?
+##### Step 5. How to create the ECS-EC2 infrastructure?
+We will deploy all the resources for ECS-EC2 instances and deploy the app. All the details of the app is mentioned in `container_definitions` which can be found in ecs.tf. We are also doing few more things as you will find multiple containers. Let's talk in details about each container we are deploying:
+a. db container: In this what we are doinng is basically fixing an AWS RDS issue https://github.com/servian/TechChallengeApp/issues/29 which is pq: permission denied for tablespace pg_default as it's owned by rds_admin and nott by the user you mentioned while deploying. The container just connect the RDS instance and run an alter command `ALTER TABLESPACE pg_default OWNER TO postgres` which give the user postgres in this case so we can run updatedb container and feed the data in the RDS DB instance. Once it's run the command the container goes to exit state. The best way to fix this issue is to do `local_exec` once the RDS resource is created or it can also be done using `remote-exec` on an AWS instance. 
+b. myapp container: In this we run the servian techchallengeapp so we can access it using `alb_dns`.
+c. webdb container: In this we run updatedb command so we can feed the data to RDS Postgres DB. Let's start now with deploying the resources.
+1. Copy the host part of the RDS Endpoint without port which should look like this `**.**.ap-southeast-2.rds.amazonaws.com`.
+2. Go to `cd terraform/terraform_web`
+3. Edit the `web.tfvars` file and provide the host, username and password for the postgres, cluster_name and key_name for the ecs-ec2 instance. The file can be found in `terraform/terraform_web/web.tfvars`. 
+Note: Assuming you already have a ssh public key on ec2 key pairs in ap-southeast-2 region.
+4. Run `terraform init`
+5. Run `terraform plan -var-file="web.tfvars" -auto-approve`
+6. Run `terraform apply -var-file="web.tfvars" -auto-approve`
+It will take about 5 minutes to provision all resources.
+## Step 6. How to delete the infrastructure?
 1. Terminate ec2 instances
 2. `cd terraform/terraform_webapp` and Run `terraform destroy -var-file="web.tfvars" -auto-approve`
-2. `cd terraform/terraform_rds` and Run `terraform destroy -var-file="rds.tfvars" -auto-approve`
+3. `cd terraform/terraform_rds` and Run `terraform destroy -var-file="rds.tfvars" -auto-approve`
+4. Delete s3 bucket `aws s3 rb s3://serviantestbucket --force --profile default` 
 #### 2. GitHub Actions Deployment
- 
+
 2a. Using Github Actions Ubuntu Runner
-    It's basically running on Ubuntu and it's run only if there is a change in the code in terraform folder in either branch terraformdev or main.
+    It's basically running on Ubuntu and it's run only if there is a change in the code in terraform folder in either branch terraformdev or main. You need to set the Repository secrets in github to use the ci. You can follow this to add https://stackoverflow.com/questions/58643905/how-aws-credentials-works-at-github-actions#:~:text=To%20get%20access%20to%20secrets,step%20as%20an%20env%20var.&text=In%20your%20case%20you%20will,for%20both%20AWS_ACCESS_KEY_ID%20and%20AWS_SECRET_ACCESS_KEY%20. 
+    At the moment, I have commented out the Terraform Plan and Terraform Apply which can be used to test and deploy using github actions.
 
 2b. Using Self-hosted Runner
   a. Please using these steps to create one https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners 

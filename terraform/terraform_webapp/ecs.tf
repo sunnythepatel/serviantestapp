@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "task-definition-test" {
         "memory": 50,
         "essential": false,
         "command": [
-            "/bin/sh", "-exc", "psql --host=${var.dbhost} --port=5432 --username=${var.postgres_user} --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO postgres;'"
+            "/bin/sh", "-exc", "psql --host=${var.dbhost} --port=5432 --username=${var.postgres_user} --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO ${var.postgres_user};'"
         ],
         "environment": [{
                 "name": "POSTGRES_USER",
