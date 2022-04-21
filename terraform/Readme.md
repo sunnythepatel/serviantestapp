@@ -82,7 +82,7 @@ It will take about 5 minutes to provision all resources.
 
 2a. Using Github Actions Ubuntu Runner
     It's basically running on Ubuntu and it's run only if there is a change in the code in terraform folder in either branch terraformdev or main. You need to set the Repository secrets in github to use the ci. You can follow this to add https://stackoverflow.com/questions/58643905/how-aws-credentials-works-at-github-actions#:~:text=To%20get%20access%20to%20secrets,step%20as%20an%20env%20var.&text=In%20your%20case%20you%20will,for%20both%20AWS_ACCESS_KEY_ID%20and%20AWS_SECRET_ACCESS_KEY%20. 
-    At the moment, I have commented out the Terraform Plan and Terraform Apply which can be used to test and deploy using github actions.
+    At the moment, I have commented out the Terraform Plan and Terraform Apply which can be used to test and deploy using github actions and run using -var command or-var-file command.
 
 2b. Using Self-hosted Runner
   a. Please using these steps to create one https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners 
