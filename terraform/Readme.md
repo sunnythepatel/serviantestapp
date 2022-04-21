@@ -72,6 +72,8 @@ Note: Assuming you already have a ssh public key on ec2 key pairs in ap-southeas
 5. Run `terraform plan -var-file="web.tfvars" -auto-approve`
 6. Run `terraform apply -var-file="web.tfvars" -auto-approve`
 It will take about 5 minutes to provision all resources.
+
+Once all the resources are up copy the alb_dns `test-ecs-lb-****.ap-southeast-2.elb.amazonaws.com` which you see in output and paste in browser to see the deployed app.
 ## Step 6. How to delete the infrastructure?
 1. Terminate ec2 instances
 2. Delete ASG manually only if the terraform_webapp destroy fails.
