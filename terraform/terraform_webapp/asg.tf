@@ -1,3 +1,13 @@
+###########################################################
+# AWS ECS-EC2
+# Description: Here we create:
+# - launch configuration
+# - key pair
+# - security groups for EC2 instances
+# - auto-scaling group : in order to enable ECS managed 
+# scaling you need to enable `protect from scale in` 
+# from auto-scaling group.
+###########################################################
 data "aws_ami" "amazon_linux" {
   most_recent = true
 

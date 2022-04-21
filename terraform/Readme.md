@@ -56,6 +56,7 @@ This example implies that you have already AWS account and Terraform CLI install
 2. terraform init
 3. terraform plan
 4. terraform apply
+   Approximate 12 mins to create all resources
 
 Note: it can take about 5 minutes to provision all resources
 ##### How to create the ECS-EC2 infrastructure?

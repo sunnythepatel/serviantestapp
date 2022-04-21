@@ -1,3 +1,9 @@
+###########################################################
+# AWS VPC
+# A verified module `vpc` is imported from 
+# Terraform Registry, other resources are 
+# created in relevant files.
+###########################################################
 module "vpc" {
   source         = "terraform-aws-modules/vpc/aws"
   version        = "3.14.0"

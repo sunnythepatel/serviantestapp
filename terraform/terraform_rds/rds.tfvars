@@ -1,4 +1,4 @@
 # Add Postgres User for eg: username="postgres"
-username=""
+username="postgres"
 # Add Postgres Password for eg: password="password123"
-password=""
+password="password123"

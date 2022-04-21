@@ -1,3 +1,9 @@
+###########################################################
+# AWS IAM ECS ROLE
+# Description: Here we createwe create roles, 
+# which will help us to associate EC2 
+# instances to clusters, and other tasks.
+###########################################################
 resource "aws_iam_role" "ecs-instance-role" {
   name = "ecs-instance-role-test-web"
   path = "/"

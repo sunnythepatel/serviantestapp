@@ -1,3 +1,8 @@
+###########################################################
+# RDS VPC
+# `vpc` is created using 3-subnets, route table 
+# and route table association
+###########################################################
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support   = true

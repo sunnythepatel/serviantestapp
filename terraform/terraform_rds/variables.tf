@@ -6,7 +6,7 @@ variable "username" {
 
 variable "password" {
   type        = string
-  description = "The password for the postgre db user"
+  description = "The password for the postgre db pasword"
 }
 
 

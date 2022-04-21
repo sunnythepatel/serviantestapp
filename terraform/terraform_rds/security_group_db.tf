@@ -1,3 +1,6 @@
+###########################################################
+# RDS SECURITY GROUP
+###########################################################
 resource "aws_security_group" "db_instance" {
   description = "security-group--db-instance"
 

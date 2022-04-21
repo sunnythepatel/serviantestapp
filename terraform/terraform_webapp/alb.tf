@@ -1,3 +1,8 @@
+####################################################################
+# AWS ECS-ALB
+# Description: Here we create Application Load Balancer with target 
+# groups, security group and listener. 
+#####################################################################
 resource "aws_lb" "test-lb" {
   name               = "test-ecs-lb"
   load_balancer_type = "application"
