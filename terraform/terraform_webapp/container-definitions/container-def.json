@@ -1,49 +1,138 @@
-[{
-    "name": "myapp",
-    "image": "servian/techchallengeapp:latest",
-    "cpu": 10,
-    "memory": 256,
-    "essential": true,
-    "portMappings": [{
-        "containerPort": 80
-    }],
-    "command": [
-        "serve"
-    ],
-    "environment": [{
-            "name": "VTT_DBUSER",
-            "value": "postgres"
-        },
-        {
-            "name": "VTT_DBPASSWORD",
-            "value": "password123"
-        },
-        {
-            "name": "VTT_DBNAME",
-            "value": "app"
-        },
-        {
-            "name": "VTT_DBPORT",
-            "value": "5432"
-        },
-        {
-            "name": "VTT_DBHOST",
-            "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
-        },
-        {
-            "name": "VTT_LISTENHOST",
-            "value": "0.0.0.0"
-        },
-        {
-            "name": "VTT_LISTENPORT",
-            "value": "80"
+[
+    {
+        "name": "db",
+        "image": "postgres:9.6-alpine",
+        "cpu": 5,
+        "memory": 50,
+        "essential": false,
+        "command": [
+            "/bin/sh", "-exc", "psql --host=production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com --port=5432 --username=postgres --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO postgres;'"
+        ],
+        "environment": [{
+                "name": "POSTGRES_USER",
+                "value": "postgres"
+            },
+            {
+                "name": "PGPASSWORD",
+                "value": "password123"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "/ecs/db-container",
+                "awslogs-region": "ap-southeast-2"
+            }
         }
-    ],
-    "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-            "awslogs-group": "/ecs/frontend-container",
-            "awslogs-region": "ap-southeast-2"
+    } ,
+    {
+        "name": "myapp",
+        "image": "servian/techchallengeapp:latest",
+        "cpu": 10,
+        "memory": 256,
+        "essential": true,
+        "portMappings": [{
+            "containerPort": 80
+        }],
+        "command": [
+            "serve"
+        ],
+        "environment": [{
+                "name": "VTT_DBUSER",
+                "value": "postgres"
+            },
+            {
+                "name": "VTT_DBPASSWORD",
+                "value": "password123"
+            },
+            {
+                "name": "VTT_DBNAME",
+                "value": "app"
+            },
+            {
+                "name": "VTT_DBPORT",
+                "value": "5432"
+            },
+            {
+                "name": "VTT_DBHOST",
+                "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
+            },
+            {
+                "name": "VTT_LISTENHOST",
+                "value": "0.0.0.0"
+            },
+            {
+                "name": "VTT_LISTENPORT",
+                "value": "80"
+            }
+        ],
+        "dependsOn": [
+            {
+            "containerName": "db",
+            "condition": "SUCCESS"
+            }, 
+            {
+                "containerName": "webdb",
+                "condition": "SUCCESS"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "/ecs/frontend-container",
+                "awslogs-region": "ap-southeast-2"
+            }
+        }
+    },
+    {
+        "name": "webdb",
+        "image": "servian/techchallengeapp:latest",
+        "cpu": 5,
+        "memory": 50,
+        "essential": false,
+        "command": [
+            "updatedb"
+        ],
+        "environment": [{
+                "name": "VTT_DBUSER",
+                "value": "postgres"
+            },
+            {
+                "name": "VTT_DBPASSWORD",
+                "value": "password123"
+            },
+            {
+                "name": "VTT_DBNAME",
+                "value": "app"
+            },
+            {
+                "name": "VTT_DBPORT",
+                "value": "5432"
+            },
+            {
+                "name": "VTT_DBHOST",
+                "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
+            },
+            {
+                "name": "VTT_LISTENHOST",
+                "value": "0.0.0.0"
+            },
+            {
+                "name": "VTT_LISTENPORT",
+                "value": "80"
+            }
+        ],
+        "dependsOn": [{
+                "containerName": "db",
+                "condition": "SUCCESS"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "/ecs/webdb-container",
+                "awslogs-region": "ap-southeast-2"
+            }
         }
     }
-}]
+]

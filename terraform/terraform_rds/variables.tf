@@ -1,6 +1,7 @@
 variable "username" {
   type        = string
   description = "The name for the postgre db user"
+  default = "postgres"
 }
 
 variable "password" {

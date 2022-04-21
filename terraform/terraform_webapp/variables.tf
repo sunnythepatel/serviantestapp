@@ -6,6 +6,7 @@ variable "key_name" {
 variable "cluster_name" {
   type        = string
   description = "The name of AWS ECS cluster"
+  default = "serviancluster"
 }
 
 # -var="key_name=id_rsa" -var="cluster_name=test_cluster"
