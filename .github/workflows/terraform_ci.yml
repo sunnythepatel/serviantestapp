@@ -29,16 +29,16 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: cd terraform/terraform/terraform_rds && terraform init -input=false
+      run: cd terraform/terraform_rds && terraform init -input=false
     
     - name: Terraform fmt
       id: fmt
-      run: cd terraform/terraform/terraform_rds && terraform fmt -check
+      run: cd terraform/terraform_rds && terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Validate
       id: validate
-      run: cd terraform/terraform/terraform_rds && terraform validate -no-color
+      run: cd terraform/terraform_rds && terraform validate -no-color
 
     # - name: Terraform Plan
     #   id: plan
@@ -95,16 +95,16 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: cd terraform/terraform/terraform_webapp && terraform init -input=false
+      run: cd terraform/terraform_webapp && terraform init -input=false
     
     - name: Terraform fmt
       id: fmt
-      run: cd terraform/terraform/terraform_webapp && terraform fmt -check
+      run: cd terraform/terraform_webapp && terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Validate
       id: validate
-      run: cd terraform/terraform/terraform_webapp && terraform validate -no-color
+      run: cd terraform/terraform_webapp && terraform validate -no-color
 
     # - name: Terraform Plan
     #   id: plan
