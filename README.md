@@ -10,4 +10,4 @@ I have deployed using two IaC tools firstly, we create a dev environment locally
    To deploy locally using vagrant go [here](Vagrant/Readme.md)
 
 #### 2. ECS-EC2 Cluster with RDS Postgres DB Deployment
-    To deploy on AWS ECS-EC2 Cluster with RDS Postgres DB go [here](terraform/Readme.md)
+   To deploy on AWS ECS-EC2 Cluster with RDS Postgres DB go [here](terraform/Readme.md)
