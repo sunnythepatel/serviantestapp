@@ -6,15 +6,15 @@
         "memory": 50,
         "essential": false,
         "command": [
-            "/bin/sh", "-exc", "psql --host=production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com --port=5432 --username=postgres --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO postgres;'"
+            "/bin/sh", "-exc", "psql --host=${dbhost} --port=5432 --username=postgres --no-password  -c 'ALTER TABLESPACE pg_default OWNER TO postgres;'"
         ],
         "environment": [{
                 "name": "POSTGRES_USER",
-                "value": "postgres"
+                "value": "${postgres_user}"
             },
             {
                 "name": "PGPASSWORD",
-                "value": "password123"
+                "value": "${postgres_password}"
             }
         ],
         "logConfiguration": {
@@ -39,11 +39,11 @@
         ],
         "environment": [{
                 "name": "VTT_DBUSER",
-                "value": "postgres"
+                "value": "${postgres_user}"
             },
             {
                 "name": "VTT_DBPASSWORD",
-                "value": "password123"
+                "value": "${postgres_password}"
             },
             {
                 "name": "VTT_DBNAME",
@@ -55,7 +55,7 @@
             },
             {
                 "name": "VTT_DBHOST",
-                "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
+                "value": "${dbhost}"
             },
             {
                 "name": "VTT_LISTENHOST",
@@ -95,11 +95,11 @@
         ],
         "environment": [{
                 "name": "VTT_DBUSER",
-                "value": "postgres"
+                "value": "${postgres_user}"
             },
             {
                 "name": "VTT_DBPASSWORD",
-                "value": "password123"
+                "value": "${postgres_password}"
             },
             {
                 "name": "VTT_DBNAME",
@@ -111,7 +111,7 @@
             },
             {
                 "name": "VTT_DBHOST",
-                "value": "production.cew4zrpigsgp.ap-southeast-2.rds.amazonaws.com"
+                "value": "${dbhost}"
             },
             {
                 "name": "VTT_LISTENHOST",
