@@ -1,5 +1,6 @@
 ###########################################################
 # RDS SECURITY GROUP
+# Description: All necessary RDS sec groups have been defined.
 ###########################################################
 resource "aws_security_group" "db_instance" {
   description = "security-group--db-instance"

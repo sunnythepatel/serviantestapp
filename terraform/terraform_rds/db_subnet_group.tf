@@ -1,3 +1,7 @@
+####################################################################
+# DB Subnet Group
+# Description: Here we add 3 db subnet for the RDS instance. 
+#####################################################################
 resource "aws_db_subnet_group" "default" {
   name = "db-subnet-group"
   

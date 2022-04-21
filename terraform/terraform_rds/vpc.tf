@@ -1,6 +1,6 @@
 ###########################################################
 # RDS VPC
-# `vpc` is created using 3-subnets, route table 
+# Description: `vpc` is created using 3-subnets, route table 
 # and route table association
 ###########################################################
 resource "aws_vpc" "default" {

@@ -1,7 +1,6 @@
 ###########################################################
 # AWS RDS INSTANCE
-# `vpc` is created using 3-subnets, route table 
-# and route table association
+# Description: AWS RDS Instance configuration files
 ###########################################################
 resource "aws_db_instance" "default" {
   allocated_storage         = 5
