@@ -99,10 +99,9 @@ vagrant-up:
   You can follow these steps to see the correct way https://docs.github.com/en/actions/hosting-your-own-runners/using-self-hosted-runners-in-a-workflow 
 
 
+Other Commands
 
-
-
-
-
+```
 aws s3 rb s3://bucket-name --force  
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name my-asg --force-delete
+```
