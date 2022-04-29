@@ -1,4 +1,4 @@
-## Vagrant Docker Development VM
+## AWS Development ECS-EC2 VMs with RDS 
 
 This Readme.md file contains instructions to install and configure the AWS Development ECS-EC2 VMs with RDS.
 
